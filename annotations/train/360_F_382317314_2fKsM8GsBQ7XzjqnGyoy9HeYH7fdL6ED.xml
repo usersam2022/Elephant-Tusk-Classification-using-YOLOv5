@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>360_F_382317314_2fKsM8GsBQ7XzjqnGyoy9HeYH7fdL6ED.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\360_F_382317314_2fKsM8GsBQ7XzjqnGyoy9HeYH7fdL6ED.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>broken_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>173</xmin>
+			<ymin>245</ymin>
+			<xmax>192</xmax>
+			<ymax>265</ymax>
+		</bndbox>
+	</object>
+</annotation>

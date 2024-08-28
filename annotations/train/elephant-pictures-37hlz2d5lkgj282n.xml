@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>elephant-pictures-37hlz2d5lkgj282n.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\elephant-pictures-37hlz2d5lkgj282n.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>339</xmin>
+			<ymin>266</ymin>
+			<xmax>415</xmax>
+			<ymax>294</ymax>
+		</bndbox>
+	</object>
+</annotation>

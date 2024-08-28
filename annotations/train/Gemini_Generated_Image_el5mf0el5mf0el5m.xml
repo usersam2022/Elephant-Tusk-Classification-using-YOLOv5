@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>Gemini_Generated_Image_el5mf0el5mf0el5m.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\Gemini_Generated_Image_el5mf0el5mf0el5m.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>broken_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>155</xmin>
+			<ymin>354</ymin>
+			<xmax>170</xmax>
+			<ymax>391</ymax>
+		</bndbox>
+	</object>
+</annotation>

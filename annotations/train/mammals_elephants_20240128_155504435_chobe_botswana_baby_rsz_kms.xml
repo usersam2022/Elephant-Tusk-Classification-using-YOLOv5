@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>mammals_elephants_20240128_155504435_chobe_botswana_baby_rsz_kms.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\mammals_elephants_20240128_155504435_chobe_botswana_baby_rsz_kms.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>340</xmin>
+			<ymin>239</ymin>
+			<xmax>373</xmax>
+			<ymax>269</ymax>
+		</bndbox>
+	</object>
+</annotation>

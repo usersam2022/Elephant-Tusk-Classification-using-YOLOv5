@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>elephant-7-adult-eating-N-1024x768.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\elephant-7-adult-eating-N-1024x768.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>75</xmin>
+			<ymin>223</ymin>
+			<xmax>199</xmax>
+			<ymax>263</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,50 @@
+<annotation>
+	<folder>train</folder>
+	<filename>ONH-Blog-Comprehensive-Guide-on-African-Elephants-1200-x-900-px - 200ppi-C-1024x768.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\ONH-Blog-Comprehensive-Guide-on-African-Elephants-1200-x-900-px - 200ppi-C-1024x768.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>246</xmin>
+			<ymin>303</ymin>
+			<xmax>257</xmax>
+			<ymax>316</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>350</xmin>
+			<ymin>257</ymin>
+			<xmax>366</xmax>
+			<ymax>275</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>420</xmin>
+			<ymin>261</ymin>
+			<xmax>432</xmax>
+			<ymax>280</ymax>
+		</bndbox>
+	</object>
+</annotation>

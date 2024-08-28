@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>african-wildlife-1024-x-768-wallpaper-ysrcijug3lrx6dko.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\african-wildlife-1024-x-768-wallpaper-ysrcijug3lrx6dko.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>broken_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>343</xmin>
+			<ymin>386</ymin>
+			<xmax>352</xmax>
+			<ymax>397</ymax>
+		</bndbox>
+	</object>
+</annotation>

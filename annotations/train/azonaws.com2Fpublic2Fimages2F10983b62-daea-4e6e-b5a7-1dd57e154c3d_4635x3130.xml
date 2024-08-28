@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>azonaws.com2Fpublic2Fimages2F10983b62-daea-4e6e-b5a7-1dd57e154c3d_4635x3130.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\azonaws.com2Fpublic2Fimages2F10983b62-daea-4e6e-b5a7-1dd57e154c3d_4635x3130.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>292</xmin>
+			<ymin>262</ymin>
+			<xmax>351</xmax>
+			<ymax>337</ymax>
+		</bndbox>
+	</object>
+</annotation>

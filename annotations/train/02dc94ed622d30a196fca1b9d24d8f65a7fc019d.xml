@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>02dc94ed622d30a196fca1b9d24d8f65a7fc019d.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\02dc94ed622d30a196fca1b9d24d8f65a7fc019d.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>164</xmin>
+			<ymin>254</ymin>
+			<xmax>203</xmax>
+			<ymax>270</ymax>
+		</bndbox>
+	</object>
+</annotation>

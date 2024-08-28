@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>elephant-4k-wildlife-photography_bG5nZW2UmZqaraWkpJRmZW1lrWZuZ2U.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\elephant-4k-wildlife-photography_bG5nZW2UmZqaraWkpJRmZW1lrWZuZ2U.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>162</xmin>
+			<ymin>343</ymin>
+			<xmax>199</xmax>
+			<ymax>363</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>640px-Elephas_maximus_28Bandipur29.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\640px-Elephas_maximus_28Bandipur29.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>269</xmin>
+			<ymin>239</ymin>
+			<xmax>301</xmax>
+			<ymax>288</ymax>
+		</bndbox>
+	</object>
+</annotation>

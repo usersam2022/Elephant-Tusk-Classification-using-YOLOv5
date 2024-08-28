@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>depositphotos_15816421-stock-photo-elephant-in-a-room.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\depositphotos_15816421-stock-photo-elephant-in-a-room.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>full_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>236</xmin>
+			<ymin>219</ymin>
+			<xmax>279</xmax>
+			<ymax>250</ymax>
+		</bndbox>
+	</object>
+</annotation>

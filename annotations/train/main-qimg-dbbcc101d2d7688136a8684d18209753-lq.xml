@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>main-qimg-dbbcc101d2d7688136a8684d18209753-lq.jpg</filename>
+	<path>C:\Users\Samya\PycharmProjects\Computer_Vision\data\images\train\main-qimg-dbbcc101d2d7688136a8684d18209753-lq.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>512</width>
+		<height>512</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>broken_tusk</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>97</xmin>
+			<ymin>298</ymin>
+			<xmax>211</xmax>
+			<ymax>424</ymax>
+		</bndbox>
+	</object>
+</annotation>
