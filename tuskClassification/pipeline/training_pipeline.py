@@ -1,12 +1,16 @@
 import sys, os
+from tuskClassification.logger import logging
+from tuskClassification.exception import TuskClassificationError
 from tuskClassification.components.data_ingestion import DataIngestion
-from tuskClassification.entity.artifacts_entity import (DataIngestionArtifact)
-from tuskClassification.entity.config_entity import (DataIngestionConfig)
-from tuskClassification.exception import *
+from tuskClassification.components.data_validation import DataValidation
+
+from tuskClassification.entity.config_entity import (DataIngestionConfig, DataValidationConfig)
+from tuskClassification.entity.artifacts_entity import (DataIngestionArtifact, DataValidationArtifact)
 
 
 class TrainPipeline:
     def __init__(self):
+        self.data_validation_config = DataValidationConfig()
         self.data_ingestion_config = DataIngestionConfig()
 
     def start_data_ingestion(self) -> DataIngestionArtifact:
@@ -31,7 +35,6 @@ class TrainPipeline:
         except Exception as e:
             raise TuskClassificationError(e, sys)
 
-    """
     def start_data_validation(
             self, data_ingestion_artifact: DataIngestionArtifact
     ) -> DataValidationArtifact:
@@ -46,16 +49,11 @@ class TrainPipeline:
             data_validation_artifact = data_validation.initiate_data_validation()
 
             logging.info("Performed the data validation operation")
-
-            logging.info(
-                "Exited the start_data_validation method of TrainPipeline class"
-            )
-
+            logging.info("Exited the start_data_validation method of TrainPipeline class")
             return data_validation_artifact
 
         except Exception as e:
             raise TuskClassificationError(e, sys) from e
-        """
 
     """
     def start_model_trainer(self
@@ -73,7 +71,10 @@ class TrainPipeline:
 
     def run_pipeline(self) -> None:
         try:
-            self.start_data_ingestion()
+            data_ingestion_artifact = self.start_data_ingestion()
+            data_validation_artifact = self.start_data_validation(
+                data_ingestion_artifact=data_ingestion_artifact
+            )
 
         except Exception as e:
             raise TuskClassificationError(e, sys)

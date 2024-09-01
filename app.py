@@ -53,14 +53,20 @@ def save_model(model, save_path):
 
 def main():
     try:
-        # Start the data ingestion process
+        # Initialize the pipeline
         pipeline = TrainPipeline()
+
+        # Run the entire pipeline (data ingestion, validation, etc.)
         pipeline.run_pipeline()
 
-        logging.info("Data ingestion completed successfully.")
+        logging.info("Pipeline execution completed successfully.")
 
     except TuskClassificationError as e:
-        logging.error(f"An error occurred during data ingestion: {str(e)}")
+        logging.error(f"An error occurred during the pipeline execution: {str(e)}")
+        raise
+
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {str(e)}")
         raise
 
 

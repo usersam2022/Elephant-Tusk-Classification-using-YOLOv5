@@ -6,9 +6,49 @@ from tuskClassification.logger import logging
 from tuskClassification.exception import TuskClassificationError
 from tuskClassification.entity.config_entity import DataIngestionConfig
 from tuskClassification.entity.artifacts_entity import DataIngestionArtifact
+import shutil
 
 # Ensure UnRAR tool path is correct
 rarfile.UNRAR_TOOL = r'C:\Program Files\WinRAR\UnRAR.exe'
+
+
+def extract_rar_file(rar_file_path: str) -> str:
+    """
+    rar_file_path: str
+    Extracts the rar file into the specified directory
+    Function returns the path where the data is extracted
+    """
+    try:
+        # Set the path directly to the root project directory
+        root_project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        # Define the path for the 'data' folder directly under the root project directory
+        feature_store_path = os.path.join(root_project_dir, 'data')
+
+        with rarfile.RarFile(rar_file_path) as rar_ref:
+            # Extract the contents of the .rar file to the root project directory
+            rar_ref.extractall(root_project_dir)
+
+            # Check if the extracted 'data' folder exists
+            extracted_data_folder = os.path.join(root_project_dir, 'data')
+            if os.path.exists(extracted_data_folder) and os.path.isdir(extracted_data_folder):
+                # Move contents up one level if a 'data' folder is found
+                for item in os.listdir(extracted_data_folder):
+                    source = os.path.join(extracted_data_folder, item)
+                    destination = os.path.join(feature_store_path, item)
+                    shutil.move(source, destination)
+
+                # Now remove the empty 'data' folder, only if it is empty
+                try:
+                    os.rmdir(extracted_data_folder)
+                except OSError:
+                    logging.warning(f"Cannot remove non-empty directory: {extracted_data_folder}")
+
+        logging.info(f"Extracted rar file: {rar_file_path} into dir: {feature_store_path}")
+
+        return feature_store_path
+
+    except Exception as e:
+        raise TuskClassificationError(e, sys)
 
 
 class DataIngestion:
@@ -38,33 +78,11 @@ class DataIngestion:
         except Exception as e:
             raise TuskClassificationError(e, sys)
 
-    def extract_rar_file(self, rar_file_path: str) -> str:
-        """
-        rar_file_path: str
-        Extracts the rar file into the specified directory
-        Function returns the path where the data is extracted
-        """
-        try:
-            # Update to the root project directory
-            feature_store_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            os.makedirs(feature_store_path, exist_ok=True)
-
-            with rarfile.RarFile(rar_file_path) as rar_ref:
-                # Extract contents directly to the root project directory
-                rar_ref.extractall(feature_store_path)
-
-            logging.info(f"Extracting rar file: {rar_file_path} into dir: {feature_store_path}")
-
-            return feature_store_path
-
-        except Exception as e:
-            raise TuskClassificationError(e, sys)
-
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         logging.info("Entered initiate_data_ingestion method of Data_Ingestion class")
         try:
             rar_file_path = self.download_data()
-            feature_store_path = self.extract_rar_file(rar_file_path)
+            feature_store_path = extract_rar_file(rar_file_path)
 
             data_ingestion_artifact = DataIngestionArtifact(
                 data_zip_file_path=rar_file_path,
