@@ -1,7 +1,8 @@
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from tuskClassification.constant.training_pipeline import *
+from tuskClassification.constant import *
 
 
 @dataclass
@@ -28,9 +29,7 @@ class DataIngestionConfig:
 @dataclass
 class DataValidationConfig:
     # Directory where validation status and required files are checked
-    data_validation_dir: str = os.path.join(
-        'C:\\Users\\Samya\\PycharmProjects\\Elephant-Tusk-Classification\\artifacts', DATA_VALIDATION_DIR_NAME
-    )
+    data_validation_dir: str = os.path.join(data_validation_dir, DATA_VALIDATION_DIR_NAME)
 
     # Path for the validation status file
     valid_status_file_dir: str = os.path.join(data_validation_dir, DATA_VALIDATION_STATUS_FILE)
@@ -39,16 +38,12 @@ class DataValidationConfig:
     required_file_list = DATA_VALIDATION_ALL_REQUIRED_FILES
 
 
-"""
 @dataclass
-class ModelTrainerConfig:
-    model_trainer_dir: str = os.path.join(
-        training_pipeline_config.artifacts_dir, MODEL_TRAINER_DIR_NAME
-    )
-
-    weight_name = MODEL_TRAINER_PRETRAINED_WEIGHT_NAME
-
-    no_epochs = MODEL_TRAINER_NO_EPOCHS
-
-    batch_size = MODEL_TRAINER_BATCH_SIZE
-"""
+class DataTransformationConfig:
+    def __init__(self):
+        self.transformed_data_dir = transformed_data_dir
+        self.source_images_dir = source_images_dir
+        self.source_labels_dir = source_labels_dir
+        self.transformed_images_dir = os.path.join(transformed_data_dir, "data_transformation", "images")
+        self.transformed_labels_dir = os.path.join(transformed_data_dir, "data_transformation", "labels")
+        self.image_size = image_size

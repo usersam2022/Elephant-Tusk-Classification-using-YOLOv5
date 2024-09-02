@@ -1,6 +1,6 @@
 ARTIFACTS_DIR: str = "artifacts"
 
-# Data Ingestion related constant start with DATA_INGESTION VAR NAME
+# Data Ingestion related constant
 
 DATA_INGESTION_DIR_NAME: str = 'data_ingestion'
 
@@ -9,7 +9,7 @@ DATA_INGESTION_FEATURE_STORE_DIR: str = 'feature_store'
 DATA_DOWNLOAD_URL: str = 'https://drive.google.com/file/d/1YiJ68DHu93HHva6Eq4L2t9C28LbfJWaw/view?usp=sharing'
 
 
-# Data Validation realted contant start with DATA_VALIDATION VAR NAME
+# Data Validation realted contant
 
 DATA_VALIDATION_DIR_NAME: str = "data_validation"
 

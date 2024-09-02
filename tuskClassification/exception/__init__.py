@@ -14,7 +14,7 @@ def error_message_detail(error, error_detail: sys = None):
 
 
 class TuskClassificationError(Exception):
-    """Base class for other exceptions"""
+    """Base exception class"""
 
     def __init__(self, message, error_detail: sys = None):
         super().__init__(message)

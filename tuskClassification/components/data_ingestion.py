@@ -2,14 +2,15 @@ import os
 import sys
 import rarfile
 import gdown
+from tuskClassification.constant import *
 from tuskClassification.logger import logging
 from tuskClassification.exception import TuskClassificationError
 from tuskClassification.entity.config_entity import DataIngestionConfig
 from tuskClassification.entity.artifacts_entity import DataIngestionArtifact
 import shutil
 
-# Ensure UnRAR tool path is correct
-rarfile.UNRAR_TOOL = r'C:\Program Files\WinRAR\UnRAR.exe'
+# UnRAR tool path
+rarfile.UNRAR_TOOL = rar_loc
 
 
 def extract_rar_file(rar_file_path: str) -> str:
@@ -68,7 +69,7 @@ class DataIngestion:
             logging.info(f"Downloading data from {dataset_url} into file {rar_file_path}")
 
             file_id = dataset_url.split("/")[-2]
-            prefix = 'https://drive.google.com/uc?/export=download&id='
+            prefix = drive_prefix
             gdown.download(prefix + file_id, rar_file_path, quiet=False)
 
             logging.info(f"Downloaded data from {dataset_url} into file {rar_file_path}")

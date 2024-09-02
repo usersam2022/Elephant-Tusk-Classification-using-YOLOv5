@@ -1,7 +1,6 @@
 import yaml
 import os
 import sys
-import base64
 from tuskClassification.exception import TuskClassificationError
 from tuskClassification.logger import logging
 

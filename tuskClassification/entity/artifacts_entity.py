@@ -12,8 +12,10 @@ class DataValidationArtifact:
     validation_status: bool
 
 
-"""
 @dataclass
-class ModelTrainerArtifact:
-    trained_model_file_path: str
-"""
+class DataTransformationArtifact:
+    transformed_data_dir: str
+    transformed_train_dir: str
+    transformed_val_dir: str
+    transformed_test_dir: str
+    message: str

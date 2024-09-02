@@ -1,10 +1,12 @@
-from tuskClassification.logger import logging
-from tuskClassification.exception import DataNotFoundError, InvalidImageFormatError, ModelLoadingError, TuskClassificationError
-import sys
-import os
-from tuskClassification.utils.main_utils import *
+import logging
+import shutil
+from tuskClassification.exception import DataNotFoundError
 from tuskClassification.pipeline.training_pipeline import TrainPipeline
-from tuskClassification.utils.main_utils import read_yaml_file
+from tuskClassification.utils.main_utils import *
+from tuskClassification.constant import *
+
+logging.basicConfig(filename='debug.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 PACKAGE_VERSION = '0.1'
 
@@ -25,6 +27,24 @@ def preprocess_data(images, labels):
     # Implement data preprocessing logic here (resize, normalize, etc.)
     logging.info("Preprocessing data...")
     pass
+
+
+def move_augmented_files():
+    # Copy augmented images
+    if os.path.exists(aug_source_images_dir):
+        for filename in os.listdir(aug_source_images_dir):
+            src_path = os.path.join(aug_source_images_dir, filename)
+            dest_path = os.path.join(source_images_dir, filename)
+            shutil.copy(src_path, dest_path)  # Changed from shutil.move to shutil.copy
+        print("Augmented images copied successfully.")
+
+    # Copy augmented labels
+    if os.path.exists(aug_source_labels_dir):
+        for filename in os.listdir(aug_source_labels_dir):
+            src_path = os.path.join(aug_source_labels_dir, filename)
+            dest_path = os.path.join(source_labels_dir, filename)
+            shutil.copy(src_path, dest_path)  # Changed from shutil.move to shutil.copy
+        print("Augmented labels copied successfully.")
 
 
 def train_model(images, labels):
@@ -52,22 +72,19 @@ def save_model(model, save_path):
 
 
 def main():
-    try:
-        # Initialize the pipeline
-        pipeline = TrainPipeline()
+    # Run the pipeline
+    pipeline = TrainPipeline()
+    pipeline.run_pipeline()
 
-        # Run the entire pipeline (data ingestion, validation, etc.)
-        pipeline.run_pipeline()
+    # Ensure the directories exist
+    logging.info(f"Checking if data_transformation directories exist before moving files.")
+    if not os.path.exists(aug_source_images_dir):
+        logging.error(f"Image directory {aug_source_images_dir} does not exist.")
+    if not os.path.exists(aug_source_labels_dir):
+        logging.error(f"Label directory {aug_source_labels_dir} does not exist.")
 
-        logging.info("Pipeline execution completed successfully.")
-
-    except TuskClassificationError as e:
-        logging.error(f"An error occurred during the pipeline execution: {str(e)}")
-        raise
-
-    except Exception as e:
-        logging.error(f"An unexpected error occurred: {str(e)}")
-        raise
+    # Move the augmented images and labels
+    move_augmented_files()
 
 
 if __name__ == "__main__":

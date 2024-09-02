@@ -44,6 +44,7 @@ class DataValidation:
         except Exception as e:
             raise TuskClassificationError(e, sys)
 
+    # checking image and text files
     def validate_file_formats(self) -> bool:
         try:
             images_dir = os.path.join(self.data_ingestion_artifact.feature_store_path, 'images')
