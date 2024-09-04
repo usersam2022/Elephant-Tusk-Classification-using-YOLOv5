@@ -9,7 +9,7 @@ LOG_DIR = r"C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\log"
 os.makedirs(LOG_DIR, exist_ok=True)
 
 # unique log file name based on the current datetime
-LOG_FILE = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
+LOG_FILE = f"{datetime.now().strftime('%d_%m_%Y_%H_%M_%S')}.log"
 LOG_FILE_PATH = os.path.join(LOG_DIR, LOG_FILE)
 
 # Configure logging

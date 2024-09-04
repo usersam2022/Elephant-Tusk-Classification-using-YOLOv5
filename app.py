@@ -62,13 +62,12 @@ def train_model():
         command = [
             "python", "train.py",
             "--img", "960",
-            "--batch", "4",
-            "--epochs", "20",
+            "--batch", "8",
+            "--epochs", "50",
             "--data", "data/data.yaml",
             "--weights", "yolov5s.pt",
-            "--cache",
             "--device", "0",
-            "--name", "itr0"
+            "--name", "itr2_b8_e50"
         ]
 
         # Run the command
@@ -166,25 +165,33 @@ def main():
     split_dataset(images_dir=images_dir, labels_dir=labels_dir)
 
     train_model()
-    logging.info('Upto training using YOLOv5 done')
+    logging.info('Training using YOLOv5 done')
 
-    # Load the trained model
-    model = torch.load(
-        'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/runs/train/itr0/weights/best.pt')
+    time.sleep(10)
 
-    # Set up validation loader
+    # Set the path to the models directory and ensure it is added to sys.path
+    path_to_models_directory = yolov5_loc
+    if path_to_models_directory not in sys.path:
+        sys.path.append(path_to_models_directory)
+
+    # Load the trained model on the GPU if available
+    model_path = best_model_path
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = torch.load(model_path, map_location=device)
+
+    # Set up the validation data loader
     validation_transform = transforms.Compose([
         transforms.Resize((960, 960)),
         transforms.ToTensor(),
     ])
 
     validation_dataset = ImageFolder(root=val_images_dir, transform=validation_transform)
-    validation_loader = DataLoader(validation_dataset, batch_size=4, shuffle=False)
+    validation_loader = DataLoader(validation_dataset, batch_size=8, shuffle=False)
 
     # Validate the model
     f1, mean_iou = validate_model(model, validation_loader)
 
-    logging.info('Validation completed')
+    logging.info('Validation done')
     logging.info(f'F1 Score: {f1:.4f}, Mean IoU: {mean_iou:.4f}')
 
 
