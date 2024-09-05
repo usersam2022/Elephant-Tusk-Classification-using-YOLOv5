@@ -27,5 +27,18 @@ val_labels_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\d
 test_labels_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\data\labels\test'
 
 yolov5_loc = "C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5"
-best_model_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/runs/train/itr2_b8_e50/weights/best.pt'
+best_model_path = r'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/runs/train/itr2_b8_e50/weights/best.pt'
+
+
+train_command = [
+            "python", "train.py",
+            "--img", "960",
+            "--batch", "8",
+            "--epochs", "50",
+            "--data", "data/data.yaml",
+            "--weights", "yolov5s.pt",
+            "--device", "0",
+            "--name", "itr2_b8_e50"
+]
+
 
