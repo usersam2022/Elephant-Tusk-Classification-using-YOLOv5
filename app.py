@@ -6,8 +6,9 @@ from tuskClassification.utils.split_data import *
 from tuskClassification.constant import *
 import os
 import torch
-from yolov5.utils.general import check_file
-from yolov5.models.yolo import Model
+import warnings
+
+warnings.filterwarnings("ignore")
 
 logging.basicConfig(filename='debug.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -24,12 +25,6 @@ def load_data(data_path):
     if not os.path.exists(data_path):
         raise DataNotFoundError(f"Data path {data_path} does not exist.")
     # Add actual data loading logic
-    pass
-
-
-def preprocess_data(images, labels):
-    # Implement data preprocessing logic here (resize, normalize, etc.)
-    logging.info("Preprocessing data...")
     pass
 
 
@@ -62,17 +57,43 @@ def train_model():
         result = subprocess.run(command, cwd=yolov5_loc, check=True, text=True)
 
         logging.info("Model training completed successfully.")
+        print('Model training done')
 
     except subprocess.CalledProcessError as e:
         logging.error(f"Training failed with error code {e.returncode}")
         raise e
 
 
-yolov5_repo_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5'
-os.chdir(yolov5_repo_path)
+os.chdir(yolov5_loc)
+sys.path.append(yolov5_loc)
+
+# Suppress albumentations warnings
+
+warnings.filterwarnings("ignore", category=UserWarning, module='albumentations')
+warnings.filterwarnings("ignore", category=torch.jit.TracerWarning)
+
+from yolov5.utils.general import check_file
+from yolov5.models.yolo import Model
 
 
-def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.25):
+def load_model(weights_path, device):
+    model_config_path = os.path.join(yolov5_loc, 'models', 'yolov5s.yaml')
+    model = Model(cfg=model_config_path, ch=3, nc=2)
+
+    # Load the entire model directly
+    checkpoint = torch.load(weights_path, map_location=device)
+
+    if isinstance(checkpoint, dict) and 'model' in checkpoint:
+        model.load_state_dict(checkpoint['model'].state_dict())  # Ensure compatibility with YOLOv5 checkpoints
+    else:
+        model = checkpoint  # If the model is stored directly, assign it
+
+    model.to(device)
+    model.eval()
+    return model
+
+
+def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01):
     logging.info("Starting model testing...")
 
     command = [
@@ -84,7 +105,7 @@ def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.25):
     ]
 
     try:
-        result = subprocess.run(command, cwd=yolov5_repo_path, check=True, text=True)
+        result = subprocess.run(command, cwd=yolov5_loc, check=True, text=True)
         logging.info("Model testing completed successfully.")
         logging.info(f"Output: {result.stdout}")
 
@@ -98,10 +119,13 @@ def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.25):
 def save_model(model, save_path):
     logging.info(f"Saving model to: {save_path}")
 
+    # Ensure the saved_models directory exists
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
+    # Create a dummy input tensor with the same size as your validation images
     dummy_input = torch.randn(1, 3, 960, 960).to('cuda' if torch.cuda.is_available() else 'cpu')
 
+    # Save the model in ONNX format
     torch.onnx.export(
         model,
         dummy_input,
@@ -115,47 +139,21 @@ def save_model(model, save_path):
     )
 
     logging.info(f"Model saved to: {save_path}")
+    print('Model saved')
 
 
 def main():
-    logging.basicConfig(filename='debug.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    PACKAGE_VERSION = '0.1'
-    logging.info(f'This is custom log for v{PACKAGE_VERSION}')
+    warnings.filterwarnings("ignore")
 
-    model_path = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\yolov5\runs\train\itr2_b8_e50\weights\best.pt'
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    model = torch.load(model_path, map_location=device)['model'].float()
-    model.to(device)
-    model.eval()
-
-    test_images_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\data\images\test'
-
-    test_model(weights_path=model_path, test_images_dir=test_images_dir)
-
-    save_model(
-        model=model,
-        save_path='C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/model0.onnx'
-    )
-
-
-if __name__ == "__main__":
-    main()
-
-"""
-def main():
-    # Run the pipeline
     pipeline = TrainPipeline()
     pipeline.run_pipeline()
 
-    # Ensure the directories exist
     logging.info(f"Checking if data_transformation directories exist before moving files.")
     if not os.path.exists(aug_source_images_dir):
         logging.error(f"Image directory {aug_source_images_dir} does not exist.")
     if not os.path.exists(aug_source_labels_dir):
         logging.error(f"Label directory {aug_source_labels_dir} does not exist.")
 
-    # Move the augmented images and labels
     move_augmented_files()
 
     images_dir = source_images_dir
@@ -166,44 +164,24 @@ def main():
     train_model()
     logging.info('Training using YOLOv5 done')
 
-    time.sleep(10)
-
-    # Set the path to the models directory and ensure it is added to sys.path
-    path_to_models_directory = yolov5_loc
-    if path_to_models_directory not in sys.path:
-        sys.path.append(path_to_models_directory)
-
-    # Load the trained model on the GPU if available
-    model_path = best_model_path
+    # Load the trained model
+    best_model_path = trained_model_path
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = torch.load(model_path, map_location=device)
+    model = load_model(best_model_path, device)  # Use the corrected load_model function
 
-    # Set up the validation data loader
-    validation_transform = transforms.Compose([
-        transforms.Resize((960, 960)),
-        transforms.ToTensor(),
-    ])
-
-    validation_dataset = CustomDataset(image_dir=val_images_dir, transform=validation_transform)
-    validation_loader = DataLoader(validation_dataset, batch_size=4, shuffle=False)
-
-    # Validate the model
-    f1, mean_iou = validate_model(model, validation_loader)
-
-    logging.info('Validation done')
-    logging.info(f'F1 Score: {f1:.4f}, Mean IoU: {mean_iou:.4f}')
-
+    # Test the model
     test_model(weights_path=best_model_path, test_images_dir=test_images_dir)
 
     # Save the model in ONNX format
     save_model(
         model=model,
-        save_path='C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/model0.onnx'
+        save_path=model_save_path
     )
 
 
 if __name__ == "__main__":
     main()
-"""
 
 # python train.py --img 640 --batch 16 --epochs 50 --data data/data.yaml --weights yolov5s.pt --cache --device 0 --name itr0
+# C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\yolov5\train.py:412: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated.
+# Please use `torch.amp.autocast('cuda', args...)` instead.
