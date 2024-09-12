@@ -102,7 +102,7 @@ def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01, iou
         "--img-size", str(img_size),
         "--conf-thres", str(conf_thres),
         "--source", test_images_dir,
-        "--iou_thres", str(iou_thres)
+        "--iou-thres", str(iou_thres)
     ]
 
     try:
