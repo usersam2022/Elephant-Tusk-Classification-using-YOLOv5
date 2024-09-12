@@ -93,7 +93,7 @@ def load_model(weights_path, device):
     return model
 
 
-def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01):
+def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01, iou_thres=0.35):
     logging.info("Starting model testing...")
 
     command = [
@@ -101,7 +101,8 @@ def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01):
         "--weights", weights_path,
         "--img-size", str(img_size),
         "--conf-thres", str(conf_thres),
-        "--source", test_images_dir
+        "--source", test_images_dir,
+        "--iou_thres", str(iou_thres)
     ]
 
     try:
