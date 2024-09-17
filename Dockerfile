@@ -1,18 +1,23 @@
-# Use a base image with Python
+# Base image
 FROM python:3.9-slim
 
-# Set up working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy necessary files
-COPY requirements.txt requirements.txt
-COPY . .
+# Install git
+RUN apt-get update && apt-get install -y git
 
-# Install dependencies
+# Copy the requirements file
+COPY requirements.txt requirements.txt
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+COPY . .
 
 # Expose port 8080 for inference
 EXPOSE 8080
 
-# Command to run your inference app
-CMD ["python", "app.py"]
+# Set the entry point
+ENTRYPOINT ["python", "app.py"]
