@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y git
 # Copy the requirements file
 COPY requirements.txt requirements.txt
 
-# Install dependencies
+# Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
