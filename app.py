@@ -1,4 +1,5 @@
 import logging, shutil, time, subprocess
+import platform
 from tuskClassification.exception import DataNotFoundError
 from tuskClassification.pipeline.training_pipeline import TrainPipeline
 from tuskClassification.utils.main_utils import *
@@ -63,6 +64,11 @@ def train_model():
         logging.error(f"Training failed with error code {e.returncode}")
         raise e
 
+
+if platform.system() == 'Windows':
+    yolov5_loc = yolov5_loc
+else:  # Linux environment (for Docker container)
+    yolov5_loc = '/app/yolov5'
 
 os.chdir(yolov5_loc)
 sys.path.append(yolov5_loc)

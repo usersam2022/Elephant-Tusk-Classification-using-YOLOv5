@@ -2,6 +2,7 @@ import os
 import sys
 import rarfile
 import gdown
+import platform
 from tuskClassification.constant import *
 from tuskClassification.logger import logging
 from tuskClassification.exception import TuskClassificationError
@@ -9,8 +10,10 @@ from tuskClassification.entity.config_entity import DataIngestionConfig
 from tuskClassification.entity.artifacts_entity import DataIngestionArtifact
 import shutil
 
-# UnRAR tool path
-rarfile.UNRAR_TOOL = rar_loc
+if platform.system() == 'Windows':
+    rar_loc = rar_loc
+else:  # Linux environment
+    rar_loc = None
 
 
 def extract_rar_file(rar_file_path: str) -> str:
