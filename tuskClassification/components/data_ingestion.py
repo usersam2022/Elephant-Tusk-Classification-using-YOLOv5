@@ -13,10 +13,7 @@ import shutil
 if platform.system() == 'Windows':
     rar_loc = rar_loc
 else:  # Linux environment
-    rar_loc = '/usr/bin/unrar'
-
-# Set UnRAR tool for rarfile
-rarfile.UNRAR_TOOL = rar_loc
+    rar_loc = None
 
 
 def extract_rar_file(rar_file_path: str) -> str:

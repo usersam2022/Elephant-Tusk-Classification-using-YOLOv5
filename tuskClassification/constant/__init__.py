@@ -27,16 +27,16 @@ val_labels_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\d
 test_labels_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\data\labels\test'
 
 yolov5_loc = "C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5"
-trained_model_path = r'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/runs/train/itr8_b4_e5/weights/best.pt'
+trained_model_path = r'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/runs/train/itr9_b4_e3/weights/best.pt'
 
 train_command = [
     "python", "train.py",
     "--img", "960",
     "--batch", "4",
-    "--epochs", "5",
+    "--epochs", "3",
     "--data", "data/data.yaml",
     "--weights", "yolov5s.pt",
     "--device", "0",
-    "--name", "itr8_b4_e5"
+    "--name", "itr9_b4_e3"
 ]
-model_save_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/model4.onnx'
+model_save_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/model5.onnx'

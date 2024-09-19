@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender-dev \
-    unrar \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
