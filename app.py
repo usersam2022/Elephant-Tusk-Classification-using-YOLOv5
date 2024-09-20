@@ -21,7 +21,7 @@ PACKAGE_VERSION = '0.1'
 logging.info(f'This is custom log for v{PACKAGE_VERSION}')
 
 # Set MLflow tracking URI
-mlflow.set_tracking_uri('http://65.0.27.242:5000')  # Replace <your-ec2-public-ip> with actual IP
+mlflow.set_tracking_uri('http://52.66.239.207:5000')
 
 
 def load_data(data_path):
@@ -46,13 +46,14 @@ def move_augmented_files():
             shutil.copy(src_path, dest_path)
         print("Augmented labels copied successfully.")
 
+
 def train_model():
     try:
         logging.info("Starting model training...")
 
         # Log MLflow parameters
-        mlflow.log_param("epochs", 50)
-        mlflow.log_param("batch_size", 16)
+        mlflow.log_param("epochs", 3)
+        mlflow.log_param("batch_size", 8)
 
         command = train_command
         result = subprocess.run(command, cwd=yolov5_loc, check=True, text=True)
@@ -98,7 +99,7 @@ def load_model(weights_path, device):
     return model
 
 
-def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01, iou_thres=0.35):
+def test_model(weights_path, test_images_dir, img_size=640, conf_thres=0.01, iou_thres=0.35):
     logging.info("Starting model testing...")
 
     command = [
@@ -131,7 +132,7 @@ def save_model(model, save_path):
 
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
-    dummy_input = torch.randn(1, 3, 960, 960).to('cuda' if torch.cuda.is_available() else 'cpu')
+    dummy_input = torch.randn(1, 3, 640, 640).to('cuda' if torch.cuda.is_available() else 'cpu')
 
     torch.onnx.export(
         model,
