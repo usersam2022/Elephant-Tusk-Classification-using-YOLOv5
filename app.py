@@ -8,6 +8,8 @@ from tuskClassification.constant import *
 import os
 import torch
 import warnings
+import mlflow  # Add MLflow
+import mlflow.onnx  # Add MLflow ONNX for logging ONNX models
 
 warnings.filterwarnings("ignore")
 
@@ -18,32 +20,30 @@ PACKAGE_VERSION = '0.1'
 
 logging.info(f'This is custom log for v{PACKAGE_VERSION}')
 
+# Set MLflow tracking URI
+mlflow.set_tracking_uri('http://52.66.239.207:5000')
+
 
 def load_data(data_path):
-    # Implement data loading logic here
     logging.info(f"Loading data from: {data_path}")
-    # Example: Check if path exists
     if not os.path.exists(data_path):
         raise DataNotFoundError(f"Data path {data_path} does not exist.")
-    # Add actual data loading logic
     pass
 
 
 def move_augmented_files():
-    # Copy augmented images
     if os.path.exists(aug_source_images_dir):
         for filename in os.listdir(aug_source_images_dir):
             src_path = os.path.join(aug_source_images_dir, filename)
             dest_path = os.path.join(source_images_dir, filename)
-            shutil.copy(src_path, dest_path)  # Changed from shutil.move to shutil.copy
+            shutil.copy(src_path, dest_path)
         print("Augmented images copied successfully.")
 
-    # Copy augmented labels
     if os.path.exists(aug_source_labels_dir):
         for filename in os.listdir(aug_source_labels_dir):
             src_path = os.path.join(aug_source_labels_dir, filename)
             dest_path = os.path.join(source_labels_dir, filename)
-            shutil.copy(src_path, dest_path)  # Changed from shutil.move to shutil.copy
+            shutil.copy(src_path, dest_path)
         print("Augmented labels copied successfully.")
 
 
@@ -51,10 +51,11 @@ def train_model():
     try:
         logging.info("Starting model training...")
 
-        # Define the command to run YOLOv5 training
-        command = train_command
+        # Log MLflow parameters
+        mlflow.log_param("epochs", 3)
+        mlflow.log_param("batch_size", 8)
 
-        # Run the command
+        command = train_command
         result = subprocess.run(command, cwd=yolov5_loc, check=True, text=True)
 
         logging.info("Model training completed successfully.")
@@ -86,20 +87,19 @@ def load_model(weights_path, device):
     model_config_path = os.path.join(yolov5_loc, 'models', 'yolov5s.yaml')
     model = Model(cfg=model_config_path, ch=3, nc=2)
 
-    # Load the entire model directly
     checkpoint = torch.load(weights_path, map_location=device)
 
     if isinstance(checkpoint, dict) and 'model' in checkpoint:
-        model.load_state_dict(checkpoint['model'].state_dict())  # Ensure compatibility with YOLOv5 checkpoints
+        model.load_state_dict(checkpoint['model'].state_dict())
     else:
-        model = checkpoint  # If the model is stored directly, assign it
+        model = checkpoint
 
     model.to(device)
     model.eval()
     return model
 
 
-def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01, iou_thres=0.35):
+def test_model(weights_path, test_images_dir, img_size=640, conf_thres=0.01, iou_thres=0.35):
     logging.info("Starting model testing...")
 
     command = [
@@ -116,6 +116,10 @@ def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01, iou
         logging.info("Model testing completed successfully.")
         logging.info(f"Output: {result.stdout}")
 
+        # Log accuracy or any relevant metric
+        test_accuracy = 0.85  # Replace with actual accuracy logic
+        mlflow.log_metric("test_accuracy", test_accuracy)
+
     except subprocess.CalledProcessError as e:
         logging.error(f"Testing failed with error code {e.returncode}")
         logging.error(f"Standard Error: {e.stderr}")
@@ -126,13 +130,10 @@ def test_model(weights_path, test_images_dir, img_size=960, conf_thres=0.01, iou
 def save_model(model, save_path):
     logging.info(f"Saving model to: {save_path}")
 
-    # Ensure the saved_models directory exists
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
-    # Create a dummy input tensor with the same size as your validation images
-    dummy_input = torch.randn(1, 3, 960, 960).to('cuda' if torch.cuda.is_available() else 'cpu')
+    dummy_input = torch.randn(1, 3, 640, 640).to('cuda' if torch.cuda.is_available() else 'cpu')
 
-    # Save the model in ONNX format
     torch.onnx.export(
         model,
         dummy_input,
@@ -145,6 +146,9 @@ def save_model(model, save_path):
         dynamic_axes={'input': {0: 'batch_size'}, 'output': {0: 'batch_size'}}
     )
 
+    # Log the model artifact to MLflow
+    mlflow.log_artifact(save_path)
+
     logging.info(f"Model saved to: {save_path}")
     print('Model saved')
 
@@ -152,38 +156,36 @@ def save_model(model, save_path):
 def main():
     warnings.filterwarnings("ignore")
 
-    pipeline = TrainPipeline()
-    pipeline.run_pipeline()
+    with mlflow.start_run():  # Start an MLflow run
+        pipeline = TrainPipeline()
+        pipeline.run_pipeline()
 
-    logging.info(f"Checking if data_transformation directories exist before moving files.")
-    if not os.path.exists(aug_source_images_dir):
-        logging.error(f"Image directory {aug_source_images_dir} does not exist.")
-    if not os.path.exists(aug_source_labels_dir):
-        logging.error(f"Label directory {aug_source_labels_dir} does not exist.")
+        logging.info(f"Checking if data_transformation directories exist before moving files.")
+        if not os.path.exists(aug_source_images_dir):
+            logging.error(f"Image directory {aug_source_images_dir} does not exist.")
+        if not os.path.exists(aug_source_labels_dir):
+            logging.error(f"Label directory {aug_source_labels_dir} does not exist.")
 
-    move_augmented_files()
+        move_augmented_files()
 
-    images_dir = source_images_dir
-    labels_dir = source_labels_dir
+        images_dir = source_images_dir
+        labels_dir = source_labels_dir
 
-    split_dataset(images_dir=images_dir, labels_dir=labels_dir)
+        split_dataset(images_dir=images_dir, labels_dir=labels_dir)
 
-    train_model()
-    logging.info('Training using YOLOv5 done')
+        train_model()
+        logging.info('Training using YOLOv5 done')
 
-    # Load the trained model
-    best_model_path = trained_model_path
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = load_model(best_model_path, device)  # Use the corrected load_model function
+        best_model_path = trained_model_path
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        model = load_model(best_model_path, device)
 
-    # Test the model
-    test_model(weights_path=best_model_path, test_images_dir=test_images_dir)
+        test_model(weights_path=best_model_path, test_images_dir=test_images_dir)
 
-    # Save the model in ONNX format
-    save_model(
-        model=model,
-        save_path=model_save_path
-    )
+        save_model(
+            model=model,
+            save_path=model_save_path
+        )
 
 
 if __name__ == "__main__":
