@@ -192,5 +192,3 @@ if __name__ == "__main__":
     main()
 
 # python train.py --img 640 --batch 16 --epochs 50 --data data/data.yaml --weights yolov5s.pt --cache --device 0 --name itr0
-# C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\yolov5\train.py:412: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated.
-# Please use `torch.amp.autocast('cuda', args...)` instead.
