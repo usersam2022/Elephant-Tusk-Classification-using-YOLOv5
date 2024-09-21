@@ -21,7 +21,7 @@ PACKAGE_VERSION = '0.1'
 logging.info(f'This is custom log for v{PACKAGE_VERSION}')
 
 # Set MLflow tracking URI
-mlflow.set_tracking_uri('http://52.66.239.207:5000')
+mlflow.set_tracking_uri(aws_ip)
 
 
 def load_data(data_path):
@@ -52,8 +52,8 @@ def train_model():
         logging.info("Starting model training...")
 
         # Log MLflow parameters
-        mlflow.log_param("epochs", 3)
-        mlflow.log_param("batch_size", 8)
+        mlflow.log_param("epochs", 50)
+        mlflow.log_param("batch_size", 4)
 
         command = train_command
         result = subprocess.run(command, cwd=yolov5_loc, check=True, text=True)
