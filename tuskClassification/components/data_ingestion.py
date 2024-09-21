@@ -10,18 +10,14 @@ from tuskClassification.entity.config_entity import DataIngestionConfig
 from tuskClassification.entity.artifacts_entity import DataIngestionArtifact
 import shutil
 
-if platform.system() == 'Windows':
-    rar_loc = rar_loc
-else:  # Linux environment
-    rar_loc = None
+# if platform.system() == 'Windows':
+#     rar_loc = rar_loc
+# else:  # Linux environment
+#     rar_loc = None
 
 
 def extract_rar_file(rar_file_path: str) -> str:
-    """
-    rar_file_path: str
-    Extracts the rar file into the specified directory
-    Function returns the path where the data is extracted
-    """
+
     try:
         # Set the path directly to the root project directory
         root_project_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
