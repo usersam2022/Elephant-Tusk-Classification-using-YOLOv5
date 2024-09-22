@@ -40,5 +40,5 @@ train_command = [
     "--name", "itr10_b4_e50_final"
 ]
 model_save_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/final_model1.onnx'
-aws_ip = 'http://3.6.126.251:5000'
+aws_ip = 'http://3.109.121.137:5000'
 
