@@ -27,18 +27,18 @@ val_labels_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\d
 test_labels_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\data\labels\test'
 
 yolov5_loc = "C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5"
-trained_model_path = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\yolov5\runs\train\itr10_b4_e50_final\weights\best.pt'
+trained_model_path = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\yolov5\runs\train\itr11_b4_e3\weights\best.pt'
 
 train_command = [
     "python", "train.py",
     "--img", "640",
     "--batch", "4",
-    "--epochs", "50",
+    "--epochs", "3",
     "--data", "data/data.yaml",
     "--weights", "yolov5s.pt",
     "--device", "0",
-    "--name", "itr10_b4_e50_final"
+    "--name", "itr11_b4_e3"
 ]
-model_save_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/final_model1.onnx'
-aws_ip = 'http://3.109.121.137:5000'
+model_save_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/model6.onnx'
+aws_ip = 'http://13.201.186.149:5000'
 

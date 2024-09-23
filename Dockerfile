@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory in the container
 WORKDIR /app
 
+# Copy the yolov5 directory into the container
+COPY yolov5 /app/yolov5
+
 # Copy the current directory contents into the container at /app
 COPY . /app
 
