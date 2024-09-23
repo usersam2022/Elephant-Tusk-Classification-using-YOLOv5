@@ -1,4 +1,4 @@
-import os
+import os, requests
 import sys
 import rarfile
 import gdown
@@ -67,11 +67,22 @@ class DataIngestion:
             rar_file_path = os.path.join(data_download_dir, data_file_name)
             logging.info(f"Downloading data from {dataset_url} into file {rar_file_path}")
 
-            file_id = dataset_url.split("/")[-2]
-            prefix = drive_prefix
-            gdown.download(prefix + file_id, rar_file_path, quiet=False)
+            if "drive.google.com" in dataset_url:
+                # Handle Google Drive URL
+                file_id = dataset_url.split("/")[-2]
+                gdown.download(f'https://drive.google.com/uc?export=download&id={file_id}', rar_file_path, quiet=False)
 
-            logging.info(f"Downloaded data from {dataset_url} into file {rar_file_path}")
+            else:
+                # Handle non-Google Drive URLs (e.g., S3)
+                response = requests.get(dataset_url, stream=True)
+                if response.status_code == 200:
+                    with open(rar_file_path, 'wb') as f:
+                        for chunk in response.iter_content(chunk_size=1024):
+                            if chunk:
+                                f.write(chunk)
+                    logging.info(f"Downloaded data from {dataset_url} into file {rar_file_path}")
+                else:
+                    raise Exception(f"Failed to download file. Status code: {response.status_code}")
 
             return rar_file_path
 
