@@ -52,7 +52,7 @@ def train_model():
         logging.info("Starting model training...")
 
         # Log MLflow parameters
-        mlflow.log_param("epochs", 3)
+        mlflow.log_param("epochs", 50)
         mlflow.log_param("batch_size", 4)
 
         command = train_command
