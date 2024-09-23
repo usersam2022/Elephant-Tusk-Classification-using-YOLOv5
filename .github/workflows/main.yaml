@@ -29,7 +29,7 @@ jobs:
   build-and-push-ecr-image:
     name: Continuous Delivery
     needs: integration
-    runs-on: ubuntu-latest  # Use GitHub-hosted runner
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -52,6 +52,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Debugging Information
+        run: |
+          echo "ECR Repository: ${{ secrets.ECR_REPOSITORY_NAME }}"
+          echo "ECR Registry URI: ${{ secrets.AWS_ECR_LOGIN_URI }}"
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
@@ -63,8 +68,8 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
           IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   Continuous-Deployment:
     needs: build-and-push-ecr-image
@@ -90,7 +95,7 @@ jobs:
 
       - name: Pull latest images
         run: |
-          docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          docker pull 820242905325.dkr.ecr.ap-south-1.amazonaws.com/elephant-tusk-classification:latest
 
       - name: Run Docker Image to serve users
         run: |
