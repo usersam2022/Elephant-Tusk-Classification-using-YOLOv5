@@ -10,7 +10,7 @@ data_validation_dir = 'C:\\Users\\Samya\\PycharmProjects\\Elephant-Tusk-Classifi
 
 rar_loc = r'C:\Program Files\WinRAR\UnRAR.exe'
 
-drive_prefix = 'https://drive.google.com/uc?/export=download&id='
+drive_prefix = 'https://drive.google.com/uc?export=download&id='
 
 aug_source_images_dir = 'C:\\Users\\Samya\\PycharmProjects\\Elephant-Tusk-Classification\\artifacts\\data_transformation\\images'
 aug_source_labels_dir = 'C:\\Users\\Samya\\PycharmProjects\\Elephant-Tusk-Classification\\artifacts\\data_transformation\\labels'
@@ -27,7 +27,7 @@ val_labels_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\d
 test_labels_dir = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\data\labels\test'
 
 yolov5_loc = "C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5"
-trained_model_path = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\yolov5\runs\train\itr11_b4_e3\weights\best.pt'
+trained_model_path = r'C:\Users\Samya\PycharmProjects\Elephant-Tusk-Classification\yolov5\runs\train\itr12_b4_e3\weights\best.pt'
 
 train_command = [
     "python", "train.py",
@@ -37,8 +37,8 @@ train_command = [
     "--data", "data/data.yaml",
     "--weights", "yolov5s.pt",
     "--device", "0",
-    "--name", "itr11_b4_e3"
+    "--name", "itr12_b4_e3"
 ]
-model_save_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/model6.onnx'
+model_save_path = 'C:/Users/Samya/PycharmProjects/Elephant-Tusk-Classification/yolov5/saved_models/model7.onnx'
 aws_ip = 'http://13.201.186.149:5000'
 

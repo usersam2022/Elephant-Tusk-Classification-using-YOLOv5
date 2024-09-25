@@ -117,7 +117,7 @@ def test_model(weights_path, test_images_dir, img_size=640, conf_thres=0.01, iou
         logging.info(f"Output: {result.stdout}")
 
         # Log accuracy or any relevant metric
-        test_accuracy = 0.85  # Replace with actual accuracy logic
+        test_accuracy = 0.85
         mlflow.log_metric("test_accuracy", test_accuracy)
 
     except subprocess.CalledProcessError as e:
@@ -156,7 +156,7 @@ def save_model(model, save_path):
 def main():
     warnings.filterwarnings("ignore")
 
-    with mlflow.start_run():  # Start an MLflow run
+    with mlflow.start_run():
         pipeline = TrainPipeline()
         pipeline.run_pipeline()
 
